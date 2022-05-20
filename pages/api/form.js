@@ -1,8 +1,7 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 export default function handler(req, res) {
-
-  let b = `data "aws_ami" "${req.body.ami.name}" {
+  console.log(req)
+  let b = `data "aws_ami" "ubuntu" {
     most_recent = true
   
     filter {
@@ -12,10 +11,11 @@ export default function handler(req, res) {
     owners = ["099720109477"]
   }
   
-  resource ${req.body.type} "web" {
+  resource "${req.body.resource_type}" "${req.body.instance_name}" {
     ami           = data.aws_ami.ubuntu.id
-    instance_type = "t3.micro"
+    instance_type = "${req.body.instance_type}"
   
   }`
+
   res.status(200).json({ "file":  b})
 }
