@@ -34,7 +34,13 @@ RUN pip3 --no-cache-dir install --upgrade setuptools==54.2.0 awscli==${AWSCLI_VE
 RUN rm -rf /var/cache/apk/*
 
 COPY prepare.sh /prepare.sh
+COPY init.sh /init.sh
+COPY starter.tf /starter.tf
+COPY ec-starter.tf /ec-starter.tf
 
-RUN chmod +x /prepare.sh
+RUN chmod a+x /prepare.sh
+RUN chmod a+x /init.sh
 
-ENTRYPOINT ["./prepare.sh"]
+RUN /init.sh
+ENTRYPOINT ["/prepare.sh"]
+
